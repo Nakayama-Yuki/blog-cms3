@@ -23,8 +23,7 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
           <Label htmlFor="password">Password</Label>
           <Link
             className="text-xs text-foreground underline"
-            href="/forgot-password"
-          >
+            href="/forgot-password">
             Forgot Password?
           </Link>
         </div>
@@ -34,6 +33,10 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
           placeholder="Your password"
           required
         />
+        <small>
+          ※ パスワードは6文字以上必要です。
+          {/* todo ※ ここに大文字、小文字、記号を含むなどの条件を追記する場合は、内容を更新してください */}
+        </small>
         <SubmitButton pendingText="Signing In..." formAction={signInAction}>
           Sign in
         </SubmitButton>

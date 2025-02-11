@@ -39,6 +39,10 @@ export default async function Signup(props: {
             minLength={6}
             required
           />
+          <small>
+            ※ パスワードは6文字以上必要です。
+            {/* ※ ここに大文字、小文字、記号を含むなどの条件を追記する場合は、内容を更新してください */}
+          </small>
           <SubmitButton formAction={signUpAction} pendingText="Signing up...">
             Sign up
           </SubmitButton>
