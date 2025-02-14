@@ -1,21 +1,16 @@
 //記事一覧表示
 
 import { Database } from "@/types/supabase";
-import Link from "next/link";
+import PostCard from "./PostCard";
 
 // postsテーブルのRow型を取得
 type Post = Database["public"]["Tables"]["posts"]["Row"];
 
 function PostList({ posts }: { posts: Post[] }) {
   return (
-    <div>
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {posts.map((post) => (
-        <article key={post.id}>
-          <h2>
-            <Link href={`/blog/${post.id}`}>{post.title}</Link>
-          </h2>
-          <p>{(post.content ?? "").substring(0, 100)}...</p>
-        </article>
+        <PostCard key={post.id} post={post} />
       ))}
     </div>
   );
