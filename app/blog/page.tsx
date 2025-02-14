@@ -1,13 +1,19 @@
 // ブログ記事一覧ページ
 
-// エラー防止のための、仮のページ
-// 後でちゃんと作る予定
+import { getPosts } from "@/lib/actions";
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const posts = await getPosts();
+
   return (
     <div>
       <h1>ブログ記事一覧</h1>
-      <p>まだ作業の途中です。</p>
+      {posts.map((post) => (
+        <article key={post.id}>
+          <h2>{post.title}</h2>
+          <p>{post.content}</p>
+        </article>
+      ))}
     </div>
   );
 }
