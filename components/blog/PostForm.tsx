@@ -1,47 +1,44 @@
+"use client";
+
 // 記事作成/編集フォーム
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { createPost } from "@/lib/blog.actions";
 
 function PostForm() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const router = useRouter();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // Supabaseにデータを保存するAPIを呼び出し
-    const response = await fetch("/api/posts", {
-      method: "POST",
-      body: JSON.stringify({ title, content }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (response.ok) {
-      router.push("/blog");
-    }
-  };
-
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="title">タイトル</label>
-        <input
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+    <form action={createPost}>
+      <div className="space-y-4">
+        <div className="flex flex-col">
+          <label htmlFor="title" className="mb-2">
+            タイトル
+          </label>
+          <input
+            id="title"
+            name="title"
+            type="text"
+            required
+            className="border rounded-md p-2"
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label htmlFor="content" className="mb-2">
+            本文
+          </label>
+          <textarea
+            id="content"
+            name="content"
+            required
+            rows={10}
+            className="border rounded-md p-2"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+          投稿
+        </button>
       </div>
-      <div>
-        <label htmlFor="content">本文</label>
-        <textarea
-          id="content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-      </div>
-      <button type="submit">投稿</button>
     </form>
   );
 }

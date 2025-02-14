@@ -1,6 +1,6 @@
 // ブログ記事一覧ページ
 
-import { getPosts } from "@/lib/actions";
+import { getPosts } from "@/lib/blog.actions";
 
 export default async function BlogPage() {
   const posts = await getPosts();
