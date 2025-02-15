@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-
+// Supabase の環境変数が必要な場合に表示される警告UI を実装している
+// 境変数が設定されていない状態でアプリケーションが実行された場合のフォールバックUIとして機能し、ユーザーに適切な視覚的フィードバックを提供します。
 export function EnvVarWarning() {
   return (
     <div className="flex gap-4 items-center">
