@@ -23,10 +23,20 @@ export async function getPosts() {
 // 記事の作成
 export async function createPost(formData: FormData) {
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const title = formData.get("title") as string;
   const content = formData.get("content") as string;
 
-  const { error } = await supabase.from("posts").insert([{ title, content }]);
+  const { error } = await supabase.from("posts").insert([
+    {
+      title,
+      content,
+      user_id: user?.id, // ユーザーIDを追加
+    },
+  ]);
 
   if (error) throw error;
 
