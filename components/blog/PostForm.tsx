@@ -1,9 +1,17 @@
 "use client";
 
+import { Database } from "@/types/supabase";
+
+type Post = Database["public"]["Tables"]["posts"]["Row"];
+
+interface PostFormProps {
+  post: Post;
+}
+
 // 記事作成/編集フォーム
 import { createPost } from "@/lib/blog.actions";
 
-function PostForm() {
+function PostForm({ post }: PostFormProps) {
   return (
     <form action={createPost}>
       <div className="space-y-4">

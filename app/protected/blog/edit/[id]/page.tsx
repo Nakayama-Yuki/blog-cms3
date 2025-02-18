@@ -1,14 +1,18 @@
 //記事編集ページ
 
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
+import { redirect, notFound } from "next/navigation";
 import PostForm from "@/components/blog/PostForm";
+import { Database } from "@/types/supabase";
 
 interface Props {
   params: {
     id: string;
   };
 }
+
+// postsテーブルのRow型を使用
+type Post = Database["public"]["Tables"]["posts"]["Row"];
 
 export default async function EditPost({ params }: Props) {
   const supabase = await createClient();
@@ -18,24 +22,24 @@ export default async function EditPost({ params }: Props) {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    return redirect("/sign-in");
+    redirect("/sign-in");
   }
 
   // 記事データの取得
-  const { data: post } = await supabase
+  const { data: post, error } = await supabase
     .from("posts")
     .select("*")
     .eq("id", params.id)
     .single();
 
-  if (!post) {
-    return redirect("/blog");
+  if (error) {
+    notFound();
   }
 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">記事の編集</h1>
-      <PostForm post={post} />
+      <PostForm post={post as Post} />
     </div>
   );
 }
