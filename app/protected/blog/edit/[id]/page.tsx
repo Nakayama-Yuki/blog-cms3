@@ -16,6 +16,8 @@ type Post = Database["public"]["Tables"]["posts"]["Row"];
 
 export default async function EditPost({ params }: Props) {
   const supabase = await createClient();
+  // paramsを分割代入して先に取得
+  const { id } = await params;
 
   // 認証チェック
   const {
@@ -29,7 +31,7 @@ export default async function EditPost({ params }: Props) {
   const { data: post, error } = await supabase
     .from("posts")
     .select("*")
-    .eq("id", params.id)
+    .eq("id", id) // 分割代入したidを使用
     .single();
 
   if (error) {
