@@ -4,16 +4,17 @@ import { Database } from "@/types/supabase";
 
 type Post = Database["public"]["Tables"]["posts"]["Row"];
 
-interface PostFormProps {
-  post: Post;
-}
-
 // 記事作成/編集フォーム
-import { createPost } from "@/lib/blog.actions";
+import { createPost, updatePost } from "@/lib/blog.actions";
 
-function PostForm({ post }: PostFormProps) {
+function PostForm({ post }: { post: Post }) {
+  // 編集時はupdatePostアクションを使用し、idをbindする
+  const handleSubmit = post?.id
+    ? updatePost.bind(null, post.id.toString())
+    : createPost;
+
   return (
-    <form action={createPost}>
+    <form action={handleSubmit}>
       <div className="space-y-4">
         <div className="flex flex-col">
           <label htmlFor="title" className="mb-2">
@@ -25,6 +26,7 @@ function PostForm({ post }: PostFormProps) {
             type="text"
             required
             className="border rounded-md p-2"
+            defaultValue={post?.title} // defaultValueの設定が必要
           />
         </div>
 
@@ -38,13 +40,14 @@ function PostForm({ post }: PostFormProps) {
             required
             rows={10}
             className="border rounded-md p-2"
+            defaultValue={post?.content || ""} // nullの場合は空文字を設定
           />
         </div>
 
         <button
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-          投稿
+          {post?.id ? "編集を保存する" : "投稿する"}
         </button>
       </div>
     </form>
