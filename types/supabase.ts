@@ -7,6 +7,10 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
+// PostとProfileの型定義を追加
+export type Post = Database["public"]["Tables"]["posts"]["Row"];
+export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+
 // supabaseにあるテーブルの型定義
 export type Database = {
   public: {
