@@ -2,17 +2,17 @@
 
 import { deletePost } from "@/lib/blog.actions";
 import { Post } from "@/types/supabase";
-import { Session } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 
 function PostDetail({
   post,
-  session,
+  user, // sessionをuserに変更
 }: {
   post: Post;
-  session: Session | null;
+  user: User | null; // 型をSessionからUserに変更
 }) {
-  // 認証済みかつ投稿者本人の場合のみtrueを返す
-  const isAuthorized = session?.user?.id === post.user_id;
+  // user?.idを直接使用するように変更
+  const isAuthorized = user?.id === post.user_id;
 
   return (
     <article className="max-w-3xl mx-auto p-6">
