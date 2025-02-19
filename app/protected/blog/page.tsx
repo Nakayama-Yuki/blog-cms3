@@ -14,16 +14,17 @@ export default async function BlogPage() {
     return redirect("/sign-in");
   }
 
-  // 記事データの取得
+  // ログインユーザーの記事データのみを取得
   const { data: posts } = await supabase
     .from("posts")
     .select("*")
+    .eq("user_id", user.id) // user_idでフィルタリング
     .order("created_at", { ascending: false });
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">記事一覧</h1>
+        <h1 className="text-2xl font-bold">マイ記事一覧</h1>
         <Link
           href="/protected/blog/create"
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
