@@ -3,15 +3,9 @@
 import { deletePost } from "@/lib/blog.actions";
 import { Post } from "@/types/supabase";
 import { User } from "@supabase/supabase-js";
+import Link from "next/link";
 
-function PostDetail({
-  post,
-  user, // sessionをuserに変更
-}: {
-  post: Post;
-  user: User | null; // 型をSessionからUserに変更
-}) {
-  // user?.idを直接使用するように変更
+function PostDetail({ post, user }: { post: Post; user: User | null }) {
   const isAuthorized = user?.id === post.user_id;
 
   return (
@@ -25,20 +19,31 @@ function PostDetail({
               : "未設定"}
           </div>
 
-          {/* 認証済みかつ投稿者本人の場合のみ削除ボタンを表示 */}
+          {/* 認証済みかつ投稿者本人の場合のみ編集・削除ボタンを表示 */}
           {isAuthorized && (
-            <form action={deletePost.bind(null, post.id.toString())}>
-              <button
-                type="submit"
-                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
-                onClick={(e) => {
-                  if (!confirm("本当に削除しますか？")) {
-                    e.preventDefault();
-                  }
-                }}>
-                削除
-              </button>
-            </form>
+            <div className="space-x-2">
+              {/* 編集ボタンを追加 */}
+              <Link
+                href={`/protected/blog/edit/${post.id}`}
+                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                編集
+              </Link>
+
+              <form
+                action={deletePost.bind(null, post.id.toString())}
+                className="inline">
+                <button
+                  type="submit"
+                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                  onClick={(e) => {
+                    if (!confirm("本当に削除しますか？")) {
+                      e.preventDefault();
+                    }
+                  }}>
+                  削除
+                </button>
+              </form>
+            </div>
           )}
         </div>
 
