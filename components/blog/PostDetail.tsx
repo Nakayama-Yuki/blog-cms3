@@ -1,10 +1,8 @@
 "use client";
 
 import { deletePost } from "@/lib/blog.actions";
-import { Database } from "@/types/supabase";
+import { Post } from "@/types/supabase";
 import { Session } from "@supabase/supabase-js";
-
-type Post = Database["public"]["Tables"]["posts"]["Row"];
 
 function PostDetail({
   post,

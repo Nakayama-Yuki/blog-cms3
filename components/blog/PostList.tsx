@@ -1,10 +1,7 @@
 //記事一覧表示
 
-import { Database } from "@/types/supabase";
+import { Post } from "@/types/supabase";
 import PostCard from "./PostCard";
-
-// postsテーブルのRow型を取得
-type Post = Database["public"]["Tables"]["posts"]["Row"];
 
 function PostList({ posts }: { posts: Post[] }) {
   return (

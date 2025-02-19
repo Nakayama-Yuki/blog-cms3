@@ -1,9 +1,7 @@
 //記事カードコンポーネント
 
-import { Database } from "@/types/supabase";
+import { Post } from "@/types/supabase";
 import Link from "next/link";
-
-type Post = Database["public"]["Tables"]["posts"]["Row"];
 
 function PostCard({ post }: { post: Post }) {
   return (

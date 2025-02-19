@@ -4,9 +4,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import type { Database } from "@/types/supabase";
-
-type Post = Database["public"]["Tables"]["posts"]["Row"];
+import type { Post } from "@/types/supabase";
 
 // 記事一覧の取得
 export async function getPosts() {

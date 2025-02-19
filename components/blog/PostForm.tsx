@@ -1,8 +1,6 @@
 "use client";
 
-import { Database } from "@/types/supabase";
-
-type Post = Database["public"]["Tables"]["posts"]["Row"];
+import { Post } from "@/types/supabase";
 
 // 記事作成/編集フォーム
 import { createPost, updatePost } from "@/lib/blog.actions";

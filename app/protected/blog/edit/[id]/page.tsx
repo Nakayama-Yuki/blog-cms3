@@ -3,16 +3,13 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect, notFound } from "next/navigation";
 import PostForm from "@/components/blog/PostForm";
-import { Database } from "@/types/supabase";
+import { Post } from "@/types/supabase";
 
 interface Props {
   params: {
     id: string;
   };
 }
-
-// postsテーブルのRow型を使用
-type Post = Database["public"]["Tables"]["posts"]["Row"];
 
 export default async function EditPost({ params }: Props) {
   const supabase = await createClient();
