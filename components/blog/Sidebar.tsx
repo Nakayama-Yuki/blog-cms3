@@ -40,29 +40,32 @@ function Sidebar() {
       {/* サイドバー */}
       <nav
         className={cn(
-          "fixed lg:static top-0 left-0 z-40 w-64 h-screen bg-white border-r border-gray-200 p-4 transition-transform duration-300 ease-in-out",
+          "fixed lg:static top-0 left-0 z-40 w-64 h-screen bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}>
-        <div className="space-y-4">
-          <div className="mb-8">
-            <h2 className="text-lg font-semibold mb-4">メニュー</h2>
-          </div>
+        {/* パディングを調整 - モバイル時は上部に余白を追加 */}
+        <div className="p-4 lg:p-4 pt-16 lg:pt-4">
+          <div className="space-y-4">
+            <div className="mb-8">
+              <h2 className="text-lg font-semibold mb-4">メニュー</h2>
+            </div>
 
-          <div className="space-y-2">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "block px-4 py-2 rounded-md transition-colors",
-                  pathname === link.href
-                    ? "bg-gray-100 text-gray-900 font-medium"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                )}
-                onClick={() => setIsOpen(false)}>
-                {link.label}
-              </Link>
-            ))}
+            <div className="space-y-2">
+              {links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "block px-4 py-2 rounded-md transition-colors",
+                    pathname === link.href
+                      ? "bg-gray-100 text-gray-900 font-medium"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  )}
+                  onClick={() => setIsOpen(false)}>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </nav>
