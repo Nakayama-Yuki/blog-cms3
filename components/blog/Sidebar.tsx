@@ -11,8 +11,8 @@ function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const links = [
-    { href: "/blog", label: "ブログ一覧" },
-    { href: "/protected/blog", label: "マイブログ管理" },
+    { href: "/blog", label: "記事一覧" },
+    { href: "/protected/blog", label: "マイ記事一覧" },
     { href: "/protected/blog/create", label: "新規記事作成" },
   ];
 
