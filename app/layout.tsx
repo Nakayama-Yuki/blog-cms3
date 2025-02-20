@@ -39,16 +39,21 @@ export default function RootLayout({
           <main className="min-h-screen flex flex-col">
             <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
               <div className="w-full max-w-7xl flex justify-between items-center p-3 px-5 text-sm">
-                <div className="flex gap-5 items-center font-semibold">
-                  <Link href={"/"}>CMS風ブログサイト</Link>
+                {/* ここを変更: レイアウトを調整 */}
+                <div className="flex-1 flex items-center">
+                  <div className="lg:flex-none flex justify-center w-full lg:w-auto">
+                    <Link href={"/"} className="pl-12 lg:pl-0">
+                      CMS風ブログサイト
+                    </Link>
+                  </div>
                 </div>
                 {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
               </div>
             </nav>
 
-            <div className="flex-1 flex">
+            <div className="flex min-h-screen">
               <Sidebar />
-              <div className="flex-1 p-8 max-w-5xl mx-auto">{children}</div>
+              <main className="flex-1 p-8">{children}</main>
             </div>
 
             <footer className="w-full border-t">
