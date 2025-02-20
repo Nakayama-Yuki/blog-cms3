@@ -5,7 +5,8 @@ import { Post } from "@/types/supabase";
 // 記事作成/編集フォーム
 import { createPost, updatePost } from "@/lib/blog.actions";
 
-function PostForm({ post }: { post: Post }) {
+function PostForm({ post }: { post?: Post }) {
+  // postをオプショナルに
   // 編集時はupdatePostアクションを使用し、idをbindする
   const handleSubmit = post?.id
     ? updatePost.bind(null, post.id.toString())
