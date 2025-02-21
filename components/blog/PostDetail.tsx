@@ -2,21 +2,36 @@
 
 import { deletePost } from "@/lib/blog.actions";
 import { Post } from "@/types/supabase";
+import {} from "@/types/supabase";
 import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 
 function PostDetail({ post, user }: { post: Post; user: User | null }) {
   const isAuthorized = user?.id === post.user_id;
 
+  const createdDate = new Date(post.created_at).toLocaleDateString("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  });
+
+  const updatedDate = post.updated_at
+    ? new Date(post.updated_at).toLocaleDateString("ja-JP", {
+        timeZone: "Asia/Tokyo",
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+      })
+    : null;
+
   return (
-    <article className="max-w-3xl mx-auto p-6">
-      <div className="space-y-6">
+    <article className="max-w-4xl mx-auto p-6">
+      <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <div className="text-gray-600 text-sm">
-            作成日:{" "}
-            {post.created_at
-              ? new Date(post.created_at).toLocaleDateString()
-              : "未設定"}
+          <div className="text-sm text-gray-500 flex justify-between w-full mr-4">
+            <div>作成日: {createdDate}</div>
+            {updatedDate && <div>更新日: {updatedDate}</div>}
           </div>
 
           {/* 認証済みかつ投稿者本人の場合のみ編集・削除ボタンを表示 */}
