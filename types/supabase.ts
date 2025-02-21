@@ -8,7 +8,9 @@ export type Json =
   | Json[];
 
 // PostとProfileの型定義を追加
-export type Post = Database["public"]["Tables"]["posts"]["Row"];
+export type Post = Database["public"]["Tables"]["posts"]["Row"] & {
+  created_at: string; // null を許可しない
+};
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 
 // supabaseにあるテーブルの型定義
