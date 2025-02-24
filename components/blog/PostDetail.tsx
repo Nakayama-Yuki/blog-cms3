@@ -8,14 +8,15 @@ import Link from "next/link";
 
 function PostDetail({ post, user }: { post: Post; user: User | null }) {
   const isAuthorized = user?.id === post.user_id;
-
+  //supabaseで保存した日付はUTCで保存しているため
+  //取得した日付(UTC)を日本時間に変換
   const createdDate = new Date(post.created_at).toLocaleDateString("ja-JP", {
     timeZone: "Asia/Tokyo",
     year: "numeric",
     month: "numeric",
     day: "numeric",
   });
-
+  //取得した日付(UTC)を日本時間に変換
   const updatedDate = post.updated_at
     ? new Date(post.updated_at).toLocaleDateString("ja-JP", {
         timeZone: "Asia/Tokyo",
@@ -29,7 +30,8 @@ function PostDetail({ post, user }: { post: Post; user: User | null }) {
     <article className="max-w-4xl mx-auto p-6">
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <div className="text-sm text-gray-500 flex justify-between w-full mr-4">
+          {/* 日付表示部分を修正 */}
+          <div className="text-sm text-gray-500 flex w-full mr-4 gap-4">
             <div>作成日: {createdDate}</div>
             {updatedDate && <div>更新日: {updatedDate}</div>}
           </div>
