@@ -3,9 +3,15 @@ import { createClient } from "@/utils/supabase/server";
 import PostDetail from "@/components/blog/PostDetail";
 import { notFound } from "next/navigation";
 
-async function BlogPost({ params }: { params: { id: string } }) {
+// 型定義を正しく設定
+interface BlogPostProps {
+  params: Promise<{ id: string }>;
+}
+
+// paramsをPromiseとして扱うように修正
+async function BlogPost({ params }: BlogPostProps) {
   const supabase = await createClient();
-  const { id } = await params; // paramsを先にawaitする
+  const { id } = await params; // paramsをawaitする
 
   // より安全な認証チェック
   const {
@@ -16,14 +22,14 @@ async function BlogPost({ params }: { params: { id: string } }) {
   const { data: post } = await supabase
     .from("posts")
     .select()
-    .eq("id", id) // awaitしたidを使用
+    .eq("id", id)
     .single();
 
   if (!post) {
     notFound();
   }
 
-  return <PostDetail post={post} user={user} />; // sessionの代わりにuserを渡す
+  return <PostDetail post={post} user={user} />;
 }
 
 export default BlogPost;
