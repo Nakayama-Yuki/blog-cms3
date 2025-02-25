@@ -5,6 +5,7 @@ import { redirect, notFound } from "next/navigation";
 import PostForm from "@/components/blog/PostForm";
 import { Post } from "@/types/supabase";
 //以前は同期的だったランタイム情報に依存する Dynamic API（このアプリだとparams と searchParams） は、現在(nextjs15)では非同期です。
+
 // 型定義
 interface Props {
   params: Promise<{
