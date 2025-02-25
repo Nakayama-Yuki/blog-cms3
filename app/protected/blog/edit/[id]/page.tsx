@@ -4,16 +4,17 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect, notFound } from "next/navigation";
 import PostForm from "@/components/blog/PostForm";
 import { Post } from "@/types/supabase";
-
+//以前は同期的だったランタイム情報に依存する Dynamic API（このアプリだとparams と searchParams） は、現在(nextjs15)では非同期です。
+// 型定義
 interface Props {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function EditPost({ params }: Props) {
   const supabase = await createClient();
-  // paramsを分割代入して先に取得
+  // paramsをawaitして取得
   const { id } = await params;
 
   // 認証チェック
@@ -28,7 +29,7 @@ export default async function EditPost({ params }: Props) {
   const { data: post, error } = await supabase
     .from("posts")
     .select("*")
-    .eq("id", id) // 分割代入したidを使用
+    .eq("id", id)
     .single();
 
   if (error) {
