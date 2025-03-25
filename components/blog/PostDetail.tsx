@@ -1,8 +1,8 @@
+//記事の詳細表示コンポーネント
 "use client";
 
 import { deletePost } from "@/lib/blog.actions";
 import { Post } from "@/types/supabase";
-import {} from "@/types/supabase";
 import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 
