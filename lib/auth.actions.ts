@@ -1,3 +1,4 @@
+// 認証に関するサーバー関数を定義している
 "use server";
 
 import { encodedRedirect } from "@/utils/utils";
@@ -5,6 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+// 新規登録のサーバー関数
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
@@ -39,6 +41,7 @@ export const signUpAction = async (formData: FormData) => {
   }
 };
 
+// サインイン（登録済みユーザーのログイン）に関するサーバー関数
 export const signInAction = async (formData: FormData) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -57,6 +60,7 @@ export const signInAction = async (formData: FormData) => {
   return redirect("/blog");
 };
 
+// パスワードを忘れた場合のサーバー関数
 export const forgotPasswordAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const supabase = await createClient();
@@ -91,6 +95,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
   );
 };
 
+// パスワードリセットのサーバー関数
 export const resetPasswordAction = async (formData: FormData) => {
   const supabase = await createClient();
 
@@ -128,6 +133,8 @@ export const resetPasswordAction = async (formData: FormData) => {
   encodedRedirect("success", "/protected/reset-password", "Password updated");
 };
 
+//　サインアウトのサーバー関数
+// サインアウトは、ユーザーがログアウトするための関数
 export const signOutAction = async () => {
   const supabase = await createClient();
   await supabase.auth.signOut();
