@@ -1,32 +1,48 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
+/**
+ * セッション更新機能 - ユーザー認証状態を維持するためのミドルウェア関数
+ */
+
 export const updateSession = async (request: NextRequest) => {
-  // This `try/catch` block is only here for the interactive tutorial.
-  // Feel free to remove once you have Supabase connected.
+  // このtry/catchブロックはインタラクティブチュートリアル用です
+  // Supabaseの接続が完了したら削除しても問題ありません
   try {
-    // Create an unmodified response
+    // 未変更の初期レスポンスを作成
+    // 元のリクエストヘッダーを維持します
     let response = NextResponse.next({
       request: {
         headers: request.headers,
       },
     });
 
+    // Supabaseのサーバークライアントを初期化
+    // 環境変数からURLとアノニマスキーを取得
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
+          // リクエストからすべてのCookieを取得する関数
           getAll() {
             return request.cookies.getAll();
           },
+
+          // レスポンスにCookieを設定する関数
+          // 認証セッショントークンの更新時に使用されます
           setAll(cookiesToSet) {
+            // まずリクエストにCookieを設定
             cookiesToSet.forEach(({ name, value }) =>
               request.cookies.set(name, value)
             );
+
+            // 更新されたリクエストで新しいレスポンスを作成
             response = NextResponse.next({
               request,
             });
+
+            // レスポンスCookieを設定（有効期限などのオプションを含む）
             cookiesToSet.forEach(({ name, value, options }) =>
               response.cookies.set(name, value, options)
             );
@@ -35,11 +51,11 @@ export const updateSession = async (request: NextRequest) => {
       }
     );
 
-    // This will refresh session if expired - required for Server Components
+    // セッションが期限切れの場合はリフレッシュ - サーバーコンポーネントに必要
     // https://supabase.com/docs/guides/auth/server-side/nextjs
     const user = await supabase.auth.getUser();
 
-    // protected routes
+    // 保護されたルート
     // リダイレクト先を/blogに変更
     if (request.nextUrl.pathname.startsWith("/blog") && user.error) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
@@ -52,9 +68,9 @@ export const updateSession = async (request: NextRequest) => {
 
     return response;
   } catch (e) {
-    // If you are here, a Supabase client could not be created!
-    // This is likely because you have not set up environment variables.
-    // Check out http://localhost:3000 for Next Steps.
+    // Supabaseクライアントを作成できませんでした！
+    // これは環境変数が設定されていない可能性があります
+    // 詳細は http://localhost:3000 を確認してください
     return NextResponse.next({
       request: {
         headers: request.headers,
