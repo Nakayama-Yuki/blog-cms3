@@ -6,9 +6,15 @@ import { Post } from "@/types/supabase";
 import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 
-function PostDetail({ post, user }: { post: Post; user: User | null }) {
+export default function PostDetail({
+  post,
+  user,
+}: {
+  post: Post;
+  user: User | null;
+}) {
   const isAuthorized = user?.id === post.user_id;
-  //supabaseで保存した日付はUTCで保存しているため
+  //supabaseで保存した日付はUTCで保存している
   //取得した日付(UTC)を日本時間に変換
   const createdDate = new Date(post.created_at).toLocaleDateString("ja-JP", {
     timeZone: "Asia/Tokyo",
@@ -38,11 +44,11 @@ function PostDetail({ post, user }: { post: Post; user: User | null }) {
 
           {/* 認証済みかつ投稿者本人の場合のみ編集・削除ボタンを表示 */}
           {isAuthorized && (
-            <div className="space-x-2">
+            <div className="space-x-2 flex items-center">
               {/* 編集ボタンを追加 */}
               <Link
                 href={`/protected/blog/edit/${post.id}`}
-                className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                className="inline-flex items-center justify-center bg-gray-500 text-white px-4 py-2.5 rounded-md hover:bg-gray-600 min-w-[80px] w-20">
                 編集
               </Link>
 
@@ -51,7 +57,7 @@ function PostDetail({ post, user }: { post: Post; user: User | null }) {
                 className="inline">
                 <button
                   type="submit"
-                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                  className="inline-flex items-center justify-center bg-red-500 text-white px-4 py-2.5 rounded-md hover:bg-red-600 min-w-[80px] w-20"
                   onClick={(e) => {
                     if (!confirm("本当に削除しますか？")) {
                       e.preventDefault();
@@ -72,5 +78,3 @@ function PostDetail({ post, user }: { post: Post; user: User | null }) {
     </article>
   );
 }
-
-export default PostDetail;
