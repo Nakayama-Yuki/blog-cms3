@@ -24,10 +24,18 @@ function PostForm({ post }: { post?: Post }) {
   return (
     <form action={formAction} className="space-y-6">
       <div className="space-y-4">
+        {/* 必須項目の説明 */}
+        <p className="text-sm text-gray-500">
+          <span className="text-red-500">*</span> は必須入力項目です
+        </p>
+
         {/* タイトル入力フィールド */}
         <div className="flex flex-col">
           <label htmlFor="title" className="mb-2 font-medium">
-            タイトル
+            タイトル{" "}
+            <span className="text-red-500" aria-hidden="true">
+              *
+            </span>
           </label>
           <input
             id="title"
@@ -49,7 +57,10 @@ function PostForm({ post }: { post?: Post }) {
         {/* 本文入力フィールド */}
         <div className="flex flex-col">
           <label htmlFor="content" className="mb-2 font-medium">
-            本文
+            本文{" "}
+            <span className="text-red-500" aria-hidden="true">
+              *
+            </span>
           </label>
           <textarea
             id="content"
