@@ -5,6 +5,7 @@ import { useActionState } from "react";
 import { Post } from "@/types/supabase";
 import { createPost, updatePost, PostActionResponse } from "@/lib/blog.actions";
 import { CheckCircle2, Loader2 } from "lucide-react";
+import Form from "next/form";
 
 // 初期状態
 const initialState: PostActionResponse = {
@@ -22,7 +23,7 @@ function PostForm({ post }: { post?: Post }) {
   const [state, formAction, isPending] = useActionState(action, initialState);
 
   return (
-    <form action={formAction} className="space-y-6">
+    <Form action={formAction} className="space-y-6">
       <div className="space-y-4">
         {/* 必須項目の説明 */}
         <p className="text-sm text-gray-500">
@@ -107,7 +108,7 @@ function PostForm({ post }: { post?: Post }) {
           )}
         </button>
       </div>
-    </form>
+    </Form>
   );
 }
 
